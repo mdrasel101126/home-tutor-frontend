@@ -19,8 +19,15 @@ const userApi = homeTutorApi.injectEndpoints({
     getUser: builder.query({
       query: () => `/users/profile`,
     }),
+    getAllUser: builder.query({
+      query: () => `/users`,
+    }),
   }),
 });
 
-export const { useCreateUserMutation, useLoginUserMutation, useGetUserQuery } =
-  userApi;
+export const {
+  useCreateUserMutation,
+  useLoginUserMutation,
+  useGetUserQuery,
+  useGetAllUserQuery,
+} = userApi;
