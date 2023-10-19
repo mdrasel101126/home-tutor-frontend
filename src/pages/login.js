@@ -4,11 +4,14 @@ import { useLoginUserMutation } from "@/redux/features/user/userApi";
 import { saveUser } from "@/redux/features/user/userSlice";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const LoginPage = () => {
+  const router = useRouter();
+  const { email } = useSelector((state) => state.user);
   const {
     register,
     handleSubmit,
@@ -40,7 +43,11 @@ const LoginPage = () => {
   };
   //console.log(error?.data?.message);
   if (isSuccess) {
-    toast.success("Congratulation! Registration Successfull!");
+    toast.success("Login Successfull!");
+  }
+
+  if (email) {
+    router.push("/");
   }
 
   return (

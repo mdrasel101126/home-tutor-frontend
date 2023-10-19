@@ -9,6 +9,21 @@ const userApi = homeTutorApi.injectEndpoints({
         body: data,
       }),
     }),
+    updateUser: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `/users/${id}`,
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: ["updateUser"],
+    }),
+    deleteUser: builder.mutation({
+      query: (id) => ({
+        url: `/users/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["deleteUser"],
+    }),
     loginUser: builder.mutation({
       query: (data) => ({
         url: "/users/login-user",
@@ -22,6 +37,7 @@ const userApi = homeTutorApi.injectEndpoints({
     getAllUser: builder.query({
       query: () => `/users`,
     }),
+    providesTags: ["updateUser", "deleteUser"],
   }),
 });
 
@@ -30,4 +46,6 @@ export const {
   useLoginUserMutation,
   useGetUserQuery,
   useGetAllUserQuery,
+  useUpdateUserMutation,
+  useDeleteUserMutation,
 } = userApi;

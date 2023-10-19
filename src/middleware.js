@@ -1,3 +1,3 @@
 export { default } from "next-auth/middleware";
 
-export const config = { matcher: ["/pc-builder"] };
+export const config = { matcher: ["/github-private"] };

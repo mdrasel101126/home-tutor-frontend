@@ -1,18 +1,18 @@
-import AllTutors from "@/components/Dashboard/AllTutors";
-import AllUsers from "@/components/Dashboard/AllUsers";
-import Bookings from "@/components/Dashboard/Bookings";
-import CreateTutor from "@/components/Dashboard/CreateTutor";
 import DashBoardLayout from "@/components/Layouts/DashBoardLayout";
 import RootLayout from "@/components/Layouts/RootLayout";
+import Spinner from "@/components/ui/Spinner";
+import { useGetUserQuery } from "@/redux/features/user/userApi";
 
 const Dashboard = () => {
+  const { data, isLoading } = useGetUserQuery();
+
   return (
     <div>
-      <h1>Hello Dashboard</h1>
-      {/* <AllUsers /> */}
-      {/*  <CreateTutor /> */}
-      {/* <AllTutors /> */}
-      {/* <Bookings /> */}
+      {isLoading && <Spinner />}
+      <h1 className="text-center font-bold text-primary text-4xl">
+        Welcome{" "}
+        {`${data?.data?.name?.firstName} ${data?.data?.name?.lastName} To Your Dashboard`}
+      </h1>
     </div>
   );
 };

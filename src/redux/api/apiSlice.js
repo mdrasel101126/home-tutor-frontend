@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const homeTutorApi = createApi({
   reducerPath: "homeTutorApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5000/api/v1",
+    baseUrl: "https://home-tutor-backend.vercel.app/api/v1/",
     prepareHeaders: (headers, { getState }) => {
       const token = getState().user?.accessToken;
       if (token) {
@@ -18,6 +18,8 @@ export const homeTutorApi = createApi({
     "updateTutor",
     "addBooking",
     "deleteBooking",
+    "updateUser",
+    "deleteUser",
   ],
   endpoints: () => ({}),
 });

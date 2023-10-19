@@ -3,13 +3,16 @@ import { useDispatch, useSelector } from "react-redux";
 import profileImg from "../../assets/profileImage.png";
 import Image from "next/image";
 import { removeUser } from "@/redux/features/user/userSlice";
+import { useRouter } from "next/router";
 
 const Navbar = () => {
   const { email, promfileImg } = useSelector((state) => state.user);
+  const router = useRouter();
   const dispatch = useDispatch();
   const handleLogout = () => {
     localStorage.removeItem("homeTutor");
     dispatch(removeUser());
+    router.push("/");
   };
   return (
     <div className="navbar bg-primary">

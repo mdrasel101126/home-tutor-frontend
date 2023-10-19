@@ -2,6 +2,7 @@ import RootLayout from "@/components/Layouts/RootLayout";
 import Review from "@/components/Review/Review";
 import TutorDetails from "@/components/tutors/TutorDetails";
 import Spinner from "@/components/ui/Spinner";
+import { usePostBookingMutation } from "@/redux/features/booking/bookingApi";
 import { usePostReviewMutation } from "@/redux/features/review/reviewApi";
 import { useGetSingleTutorQuery } from "@/redux/features/tutor/tutorApi";
 import { useRouter } from "next/router";
@@ -21,11 +22,12 @@ const TutorDetailsPage = () => {
   const { _id } = useSelector((state) => state.user);
   const [reviewInput, setReviewInput] = useState("");
   const [postReview] = usePostReviewMutation();
+  const [postBooking, { isSuccess, isError, error }] = usePostBookingMutation();
   const handleReview = (reviewData) => {
     if (!_id) {
       return toast.error("Please Login to Add a Comment");
     }
-    console.log(reviewData);
+    //console.log(reviewData);
     const options = {
       review: reviewData,
       user: _id,
@@ -33,10 +35,35 @@ const TutorDetailsPage = () => {
     };
     postReview(options);
   };
+  const handleBookTutor = (id) => {
+    if (!_id) {
+      return toast.error("Please Login to Create Booking!");
+    }
+    const options = {
+      user: _id,
+      tutor: id,
+    };
+    postBooking(options);
+  };
+
+  if (isSuccess) {
+    toast.success("Booking Created Successfully!");
+  }
+  if (isError) {
+    toast.error(error?.data?.message);
+  }
   return (
     <div>
       {isLoading && <Spinner />}
       {data && <TutorDetails data={data?.data} />}
+      <div className="text-center my-5">
+        <button
+          onClick={() => handleBookTutor(data?.data?.tutor?._id)}
+          className="btn btn-primary"
+        >
+          Book Tutor
+        </button>
+      </div>
       <div className="w-4/5 mx-auto mt-8">
         <div>
           <input

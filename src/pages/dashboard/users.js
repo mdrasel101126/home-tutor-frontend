@@ -1,16 +1,39 @@
 import DashBoardLayout from "@/components/Layouts/DashBoardLayout";
 import RootLayout from "@/components/Layouts/RootLayout";
-import { useGetAllUserQuery } from "@/redux/features/user/userApi";
+import {
+  useDeleteUserMutation,
+  useGetAllUserQuery,
+  useUpdateUserMutation,
+} from "@/redux/features/user/userApi";
+import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
 
 const AllUsers = () => {
   const { data, isError, isLoading, error } = useGetAllUserQuery();
+  const { _id } = useSelector((state) => state.user);
+  const [updateUser, { isSuccess: isUpdateSuccess }] = useUpdateUserMutation();
+  const [deleteUser, { isSuccess: isDeleteSuccess }] = useDeleteUserMutation();
   const users = data?.data;
   const handleDeleteUser = (id) => {
-    console.log(id);
+    deleteUser(id);
   };
+
   const handleMakeAdmin = (id) => {
-    console.log(id);
+    const options = {
+      id: id,
+      data: {
+        role: "admin",
+      },
+    };
+    //console.log(options);
+    updateUser(options);
   };
+  if (isUpdateSuccess) {
+    toast.success("Successfull!!");
+  }
+  if (isDeleteSuccess) {
+    toast.success("User Deleted Successfully");
+  }
   return (
     <div className="my-20">
       <h1 className="text-xl text-center font-bold my-4">
@@ -36,12 +59,20 @@ const AllUsers = () => {
                   <td>{user.email}</td>
                   <td>
                     <button
+                      disabled={
+                        (_id === user._id) | (user?.role === "super_admin")
+                      }
                       onClick={() => handleDeleteUser(user._id)}
                       className="btn btn-sm text-red-600"
                     >
                       Delete
                     </button>
                     <button
+                      disabled={
+                        (_id === user._id) |
+                        (user?.role === "super_admin") |
+                        (user?.role === "admin")
+                      }
                       onClick={() => handleMakeAdmin(user._id)}
                       className="btn btn-sm text-green-600 ml-2"
                     >

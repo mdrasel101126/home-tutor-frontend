@@ -1,12 +1,18 @@
 import RootLayout from "@/components/Layouts/RootLayout";
 import Spinner from "@/components/ui/Spinner";
 import { useCreateUserMutation } from "@/redux/features/user/userApi";
+import { saveUser } from "@/redux/features/user/userSlice";
 import { imageUploader } from "@/upload/upload";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
 
 const Register = () => {
+  const router = useRouter();
+  const { email } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -49,6 +55,9 @@ const Register = () => {
     };
     postSignup(options);
   };
+  if (email) {
+    router.push("/");
+  }
   return (
     <div className="my-20">
       {/*  {spinner && <Spinner></Spinner>} */}
