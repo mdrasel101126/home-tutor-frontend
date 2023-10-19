@@ -1,5 +1,5 @@
 import RootLayout from "@/components/Layouts/RootLayout";
-import ProductCard from "@/components/products/TutorCard";
+import ProductCard from "@/components/tutors/TutorCard";
 import React from "react";
 
 const PowerSupply = ({ products }) => {

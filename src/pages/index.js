@@ -1,9 +1,11 @@
 import RootLayout from "@/components/Layouts/RootLayout";
-import TutorCard from "@/components/products/TutorCard";
-import ProductCard from "@/components/products/TutorCard";
+import TutorCard from "@/components/tutors/TutorCard";
+import ProductCard from "@/components/tutors/TutorCard";
 import HomePageHeroSection from "@/components/ui/HomePageHeroSection";
 import { useGetTutorsQuery } from "@/redux/features/tutor/tutorApi";
 import {
+  setLimit,
+  setPage,
   setPreferedClasses,
   setSearchTerm,
 } from "@/redux/features/tutor/tutorSlice";
@@ -17,16 +19,22 @@ export default function HomePage() {
   );
   const dispatch = useDispatch();
   const [searchInput, setSearchInput] = useState("");
-  const { data } = useGetTutorsQuery({ searchTerm, preferedClasses });
+  const { data } = useGetTutorsQuery({
+    searchTerm,
+    preferedClasses,
+    limit,
+    page,
+  });
   const tutors = data?.data?.data;
   const meta = data?.data?.meta;
 
-  console.log(tutors, meta);
+  //console.log(tutors, meta);
   const handleSearch = (searchValue) => {
     dispatch(setSearchTerm(searchValue));
     //console.log(searchTerm);
   };
   //console.log(preferedClasses);
+  //console.log("Page", page);
   return (
     <div className="w-full">
       <div>
@@ -66,6 +74,36 @@ export default function HomePage() {
             {tutors?.map((tutor) => (
               <TutorCard key={tutor._id} tutor={tutor} />
             ))}
+          </div>
+          <div className="flex flex-row justify-center my-8">
+            <div className="join">
+              {Array.from(
+                { length: Math.ceil(meta?.total / limit) },
+                (_, index) => (
+                  <button
+                    className={`join-item btn btn-accent ml-1 btn-xs ${
+                      page === index + 1 ? "btn-active text-white" : ""
+                    }`}
+                    key={index + 1}
+                    onClick={() => dispatch(setPage(index + 1))}
+                  >
+                    {index + 1}
+                  </button>
+                )
+              )}
+            </div>
+            <select
+              onChange={(e) => {
+                dispatch(setLimit(e.target.value));
+                dispatch(setPage(1));
+              }}
+              defaultValue="10"
+              className="select inline select-secondary select-xs w-14 max-w-xs mx-4"
+            >
+              <option>5</option>
+              <option>10</option>
+              <option>15</option>
+            </select>
           </div>
         </div>
       </div>

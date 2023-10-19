@@ -8,7 +8,7 @@ const TutorCard = ({ tutor }) => {
     <div className="card card-compact shadow-xl">
       <figure>
         <Image
-          src={tutor?.image ? tutor?.image : profileImg}
+          src={tutor?.promfileImg ? tutor?.promfileImg : profileImg}
           layout="responsive"
           width={500}
           height={270}

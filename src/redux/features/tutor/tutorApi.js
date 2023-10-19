@@ -26,10 +26,12 @@ const tutorApi = homeTutorApi.injectEndpoints({
       invalidatesTags: ["addTutor"],
     }),
     getTutors: builder.query({
-      query: ({ searchTerm, preferedClasses }) => {
+      query: ({ searchTerm, preferedClasses, page, limit }) => {
         const params = new URLSearchParams();
         if (searchTerm) params.append("searchTerm", searchTerm);
         if (preferedClasses) params.append("preferedClasses", preferedClasses);
+        if (limit) params.append("limit", limit);
+        if (page) params.append("page", page);
 
         return `/tutors/?${params.toString()}`;
       },
