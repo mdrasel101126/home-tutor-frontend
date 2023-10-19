@@ -31,6 +31,7 @@ const RootLayout = ({ children }) => {
         _id: user.data?._id,
         accessToken: token,
         promfileImg: user?.data?.promfileImg,
+        role: user?.data?.role,
       })
     );
   }

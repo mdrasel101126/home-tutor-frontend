@@ -21,6 +21,7 @@ const Register = () => {
         _id: user.data?.user?._id,
         accessToken: user.data?.accessToken,
         promfileImg: user.data?.promfileImg,
+        role: user.data?.role,
       })
     );
     localStorage.setItem("homeTutor", user.data?.accessToken);

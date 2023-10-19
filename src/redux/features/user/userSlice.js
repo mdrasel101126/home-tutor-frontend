@@ -6,6 +6,7 @@ const initialState = {
   accessToken: "",
   userLoader: true,
   promfileImg: null,
+  role: "",
 };
 const userSlice = createSlice({
   name: "user",
@@ -17,6 +18,7 @@ const userSlice = createSlice({
       state.accessToken = action.payload?.accessToken;
       state.userLoader = false;
       state.promfileImg = action.payload?.promfileImg;
+      state.role = action.payload?.role;
     },
     setAccessToken: (state, action) => {
       state.accessToken = action.payload;
@@ -29,6 +31,8 @@ const userSlice = createSlice({
       state._id = "";
       state.accessToken = "";
       state.userLoader = false;
+      state.promfileImg = null;
+      state.role = "";
     },
   },
 });

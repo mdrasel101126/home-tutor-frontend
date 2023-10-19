@@ -1,4 +1,6 @@
+import AllTutors from "@/components/Dashboard/AllTutors";
 import AllUsers from "@/components/Dashboard/AllUsers";
+import Bookings from "@/components/Dashboard/Bookings";
 import CreateTutor from "@/components/Dashboard/CreateTutor";
 import RootLayout from "@/components/Layouts/RootLayout";
 
@@ -7,7 +9,9 @@ const Dashboard = () => {
     <div>
       <h1>Hello Dashboard</h1>
       {/* <AllUsers /> */}
-      <CreateTutor />
+      {/*  <CreateTutor /> */}
+      {/* <AllTutors /> */}
+      <Bookings />
     </div>
   );
 };

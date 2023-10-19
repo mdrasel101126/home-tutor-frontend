@@ -11,6 +11,13 @@ export const homeTutorApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ["reviews", "addTutor", "deleteTutor", "updateTutor"],
+  tagTypes: [
+    "reviews",
+    "addTutor",
+    "deleteTutor",
+    "updateTutor",
+    "addBooking",
+    "deleteBooking",
+  ],
   endpoints: () => ({}),
 });
