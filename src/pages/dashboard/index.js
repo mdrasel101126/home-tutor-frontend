@@ -2,6 +2,7 @@ import AllTutors from "@/components/Dashboard/AllTutors";
 import AllUsers from "@/components/Dashboard/AllUsers";
 import Bookings from "@/components/Dashboard/Bookings";
 import CreateTutor from "@/components/Dashboard/CreateTutor";
+import DashBoardLayout from "@/components/Layouts/DashBoardLayout";
 import RootLayout from "@/components/Layouts/RootLayout";
 
 const Dashboard = () => {
@@ -11,7 +12,7 @@ const Dashboard = () => {
       {/* <AllUsers /> */}
       {/*  <CreateTutor /> */}
       {/* <AllTutors /> */}
-      <Bookings />
+      {/* <Bookings /> */}
     </div>
   );
 };
@@ -19,5 +20,9 @@ const Dashboard = () => {
 export default Dashboard;
 
 Dashboard.getLayout = function getLayout(page) {
-  return <RootLayout>{page}</RootLayout>;
+  return (
+    <RootLayout>
+      <DashBoardLayout>{page}</DashBoardLayout>
+    </RootLayout>
+  );
 };

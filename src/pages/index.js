@@ -1,6 +1,5 @@
 import RootLayout from "@/components/Layouts/RootLayout";
 import TutorCard from "@/components/tutors/TutorCard";
-import ProductCard from "@/components/tutors/TutorCard";
 import HomePageHeroSection from "@/components/ui/HomePageHeroSection";
 import { useGetTutorsQuery } from "@/redux/features/tutor/tutorApi";
 import {
@@ -18,7 +17,7 @@ export default function HomePage() {
     (state) => state.tutor
   );
   const dispatch = useDispatch();
-  const [searchInput, setSearchInput] = useState("");
+  const [searchInput, setSearchInput] = useState(searchTerm);
   const { data } = useGetTutorsQuery({
     searchTerm,
     preferedClasses,
@@ -106,57 +105,6 @@ export default function HomePage() {
             </select>
           </div>
         </div>
-      </div>
-
-      <div className="my-8 flex flex-row flex-wrap justify-center items-center">
-        <Link
-          href="/processor"
-          className="p-4 bg-green-300 text-primary font-semibold rounded-md m-4 w-52 text-center"
-        >
-          Processor
-        </Link>
-
-        <Link
-          href="/motherboard"
-          className="p-4 bg-green-300 text-primary font-semibold rounded-md m-4  w-52 text-center"
-        >
-          Motherboard
-        </Link>
-
-        <Link
-          href="/ram"
-          className="p-4 bg-green-300 text-primary font-semibold rounded-md m-4  w-52 text-center"
-        >
-          RAM
-        </Link>
-
-        <Link
-          href="/power-supply"
-          className="p-4 bg-green-300 text-primary font-semibold rounded-md m-4  w-52 text-center"
-        >
-          Power Supply Unit
-        </Link>
-
-        <Link
-          href="/storage-device"
-          className="p-4 bg-green-300 text-primary font-semibold rounded-md m-4  w-52 text-center"
-        >
-          Storage Device
-        </Link>
-
-        <Link
-          href="/monitor"
-          className="p-4 bg-green-300 text-primary font-semibold rounded-md m-4  w-52 text-center"
-        >
-          Monitor
-        </Link>
-
-        <Link
-          href="/others"
-          className="p-4 bg-green-300 text-primary font-semibold rounded-md m-4  w-52 text-center"
-        >
-          Others
-        </Link>
       </div>
     </div>
   );

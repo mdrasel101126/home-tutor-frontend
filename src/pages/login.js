@@ -114,16 +114,6 @@ const LoginPage = () => {
           </p>
         </label>
       </div>
-      <button
-        onClick={() =>
-          signIn("github", {
-            callbackUrl: "https://pc-builder-xi.vercel.app/",
-          })
-        }
-        className="btn btn-primary w-28 mt-6"
-      >
-        Github
-      </button>
     </div>
   );
 };
