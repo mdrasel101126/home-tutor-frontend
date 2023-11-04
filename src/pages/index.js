@@ -1,24 +1,24 @@
 import RootLayout from "@/components/Layouts/RootLayout";
 import TutorCard from "@/components/tutors/TutorCard";
 import HomePageHeroSection from "@/components/ui/HomePageHeroSection";
+import Spinner from "@/components/ui/Spinner";
 import { useGetTutorsQuery } from "@/redux/features/tutor/tutorApi";
 import {
   setLimit,
   setPage,
   setPreferedClasses,
   setSearchTerm,
-} from "@/redux/features/tutor/tutorSlice";
-import Link from "next/link";
+} from "@/redux/features/filter/filterSlice";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function HomePage() {
   const { searchTerm, preferedClasses, limit, page } = useSelector(
-    (state) => state.tutor
+    (state) => state.filter
   );
   const dispatch = useDispatch();
   const [searchInput, setSearchInput] = useState(searchTerm);
-  const { data } = useGetTutorsQuery({
+  const { data, isLoading } = useGetTutorsQuery({
     searchTerm,
     preferedClasses,
     limit,
@@ -67,43 +67,46 @@ export default function HomePage() {
             </select>
           </div>
         </div>
-        <div className="w-full">
-          <h1 className="my-8 text-5xl text-center">Our Tutors</h1>
+        <div className="w-full mt-4">
+          <h1 className="my-4 text-5xl text-center">Our Tutors</h1>
+          {isLoading && <Spinner />}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mx-8 gap-8">
             {tutors?.map((tutor) => (
               <TutorCard key={tutor._id} tutor={tutor} />
             ))}
           </div>
-          <div className="flex flex-row justify-center my-8">
-            <div className="join">
-              {Array.from(
-                { length: Math.ceil(meta?.total / limit) },
-                (_, index) => (
-                  <button
-                    className={`join-item btn btn-accent ml-1 btn-xs ${
-                      page === index + 1 ? "btn-active text-white" : ""
-                    }`}
-                    key={index + 1}
-                    onClick={() => dispatch(setPage(index + 1))}
-                  >
-                    {index + 1}
-                  </button>
-                )
-              )}
+          {tutors?.length > 0 && (
+            <div className="flex flex-row justify-center my-8">
+              <div className="join">
+                {Array.from(
+                  { length: Math.ceil(meta?.total / limit) },
+                  (_, index) => (
+                    <button
+                      className={`join-item btn btn-accent ml-1 btn-xs ${
+                        page === index + 1 ? "btn-active text-white" : ""
+                      }`}
+                      key={index + 1}
+                      onClick={() => dispatch(setPage(index + 1))}
+                    >
+                      {index + 1}
+                    </button>
+                  )
+                )}
+              </div>
+              <select
+                onChange={(e) => {
+                  dispatch(setLimit(e.target.value));
+                  dispatch(setPage(1));
+                }}
+                defaultValue="10"
+                className="select inline select-secondary select-xs w-14 max-w-xs mx-4"
+              >
+                <option>5</option>
+                <option>10</option>
+                <option>15</option>
+              </select>
             </div>
-            <select
-              onChange={(e) => {
-                dispatch(setLimit(e.target.value));
-                dispatch(setPage(1));
-              }}
-              defaultValue="10"
-              className="select inline select-secondary select-xs w-14 max-w-xs mx-4"
-            >
-              <option>5</option>
-              <option>10</option>
-              <option>15</option>
-            </select>
-          </div>
+          )}
         </div>
       </div>
     </div>

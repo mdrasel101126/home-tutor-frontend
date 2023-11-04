@@ -7,7 +7,7 @@ const initialState = {
   limit: 10,
 };
 
-const tutorSlice = createSlice({
+const filterSlice = createSlice({
   name: "tutors",
   initialState,
   reducers: {
@@ -26,5 +26,5 @@ const tutorSlice = createSlice({
   },
 });
 export const { setPreferedClasses, setSearchTerm, setLimit, setPage } =
-  tutorSlice.actions;
-export default tutorSlice.reducer;
+  filterSlice.actions;
+export default filterSlice.reducer;

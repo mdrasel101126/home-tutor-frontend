@@ -1,11 +1,12 @@
 import RootLayout from "@/components/Layouts/RootLayout";
 import { useGetUserQuery } from "@/redux/features/user/userApi";
 import Image from "next/image";
-import { useSelector } from "react-redux";
-import profileImage from "../../assets/profileImage.png";
-import { useReducer } from "react";
 
-const Profile = () => {
+import profileImage from "../../assets/profileImage.png";
+
+import Link from "next/link";
+
+const EditProfile = () => {
   const { data: user, isLoading, isError, error } = useGetUserQuery();
 
   return (
@@ -45,13 +46,18 @@ const Profile = () => {
             </p>
           </div>
         </div>
+        <div className="text-center my-8">
+          <Link href="/profile/edit-profile" className="btn btn-primary ">
+            Edit Profile
+          </Link>
+        </div>
       </div>
     </div>
   );
 };
 
-export default Profile;
+export default EditProfile;
 
-Profile.getLayout = function getLayout(page) {
+EditProfile.getLayout = function getLayout(page) {
   return <RootLayout>{page}</RootLayout>;
 };

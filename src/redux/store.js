@@ -1,12 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { homeTutorApi } from "./api/apiSlice";
-import tutorReducer from "./features/tutor/tutorSlice";
 import userReducer from "./features/user/userSlice";
+import filterReducer from "./features/filter/filterSlice";
 
 export const store = configureStore({
   reducer: {
-    tutor: tutorReducer,
     user: userReducer,
+    filter: filterReducer,
     [homeTutorApi.reducerPath]: homeTutorApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
