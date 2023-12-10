@@ -2,7 +2,7 @@ import RootLayout from "@/components/Layouts/RootLayout";
 import Spinner from "@/components/ui/Spinner";
 import { useLoginUserMutation } from "@/redux/features/user/userApi";
 import { saveUser } from "@/redux/features/user/userSlice";
-import { signIn } from "next-auth/react";
+import { saveToLocalStorage } from "@/utils/auth";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
@@ -11,30 +11,33 @@ import { useDispatch, useSelector } from "react-redux";
 
 const LoginPage = () => {
   const router = useRouter();
-  const { email } = useSelector((state) => state.user);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const dispatch = useDispatch();
+  const { email } = useSelector((state) => state.user);
   const [postLogin, { isError, error, isSuccess, isLoading, data: user }] =
     useLoginUserMutation();
+  const dispatch = useDispatch();
   if (user) {
+    console.log(user?.data);
+    saveToLocalStorage(user?.data);
     dispatch(
       saveUser({
-        email: user.data?.user?.email,
-        _id: user.data?.user?._id,
-        accessToken: user.data?.accessToken,
-        promfileImg: user.data?.promfileImg,
-        role: user.data?.role,
+        email: user?.data?.newUserData?.email,
+        accessToken: user?.data?.accessToken,
+        profileImg: user?.data?.newUserData?.profileImg,
+        role: user?.data?.newUserData?.role,
       })
     );
-    localStorage.setItem("homeTutor", user.data?.accessToken);
+  }
+  if (email) {
+    router.push("/");
   }
 
   const handleLogin = (data) => {
-    console.log(data);
+    //console.log(data);
     const options = {
       email: data.email,
       password: data.password,
@@ -44,10 +47,6 @@ const LoginPage = () => {
   //console.log(error?.data?.message);
   if (isSuccess) {
     toast.success("Login Successfull!");
-  }
-
-  if (email) {
-    router.push("/");
   }
 
   return (

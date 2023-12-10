@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
-import profileImg from "../../assets/profileImage.png";
+import defaultProfileImg from "../../assets/profileImage.png";
 import Image from "next/image";
 import { removeUser } from "@/redux/features/user/userSlice";
 import { useRouter } from "next/router";
 
 const Navbar = () => {
-  const { email, promfileImg } = useSelector((state) => state.user);
+  const { email, profileImg } = useSelector((state) => state.user);
   const router = useRouter();
   const dispatch = useDispatch();
   const handleLogout = () => {
@@ -27,7 +27,7 @@ const Navbar = () => {
             <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
               <div className="w-20 rounded-full">
                 <Image
-                  src={promfileImg ? promfileImg : profileImg}
+                  src={profileImg ? profileImg : defaultProfileImg}
                   width={20}
                   height={20}
                   alt="person"

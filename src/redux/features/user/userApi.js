@@ -2,9 +2,16 @@ import { homeTutorApi } from "@/redux/api/apiSlice";
 
 const userApi = homeTutorApi.injectEndpoints({
   endpoints: (builder) => ({
-    createUser: builder.mutation({
+    createCustomer: builder.mutation({
       query: (data) => ({
-        url: "/users/create-user",
+        url: "users/create-customer",
+        method: "POST",
+        body: data,
+      }),
+    }),
+    createTutor: builder.mutation({
+      query: (data) => ({
+        url: "users/create-tutor",
         method: "POST",
         body: data,
       }),
@@ -26,13 +33,13 @@ const userApi = homeTutorApi.injectEndpoints({
     }),
     loginUser: builder.mutation({
       query: (data) => ({
-        url: "/users/login-user",
+        url: "/auth/login",
         method: "POST",
         body: data,
       }),
     }),
     getUser: builder.query({
-      query: () => `/users/profile`,
+      query: () => `/auth/profile`,
     }),
     getAllUser: builder.query({
       query: () => `/users`,
@@ -42,10 +49,11 @@ const userApi = homeTutorApi.injectEndpoints({
 });
 
 export const {
-  useCreateUserMutation,
+  useCreateCustomerMutation,
   useLoginUserMutation,
   useGetUserQuery,
   useGetAllUserQuery,
   useUpdateUserMutation,
   useDeleteUserMutation,
+  useCreateTutorMutation,
 } = userApi;

@@ -10,6 +10,13 @@ const tutorApi = homeTutorApi.injectEndpoints({
       }),
       invalidatesTags: ["updateTutor"],
     }),
+    loginTutor: builder.mutation({
+      query: (data) => ({
+        url: "/tutors/login-tutor",
+        method: "POST",
+        body: data,
+      }),
+    }),
     deleteTutor: builder.mutation({
       query: (id) => ({
         url: `/tutors/${id}`,
@@ -50,4 +57,5 @@ export const {
   usePostTutorMutation,
   useUpdateTutorMutation,
   useDeleteTutorMutation,
+  useLoginTutorMutation,
 } = tutorApi;

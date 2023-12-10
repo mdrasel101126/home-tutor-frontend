@@ -1,8 +1,9 @@
 import RootLayout from "@/components/Layouts/RootLayout";
 import Spinner from "@/components/ui/Spinner";
-import { useCreateUserMutation } from "@/redux/features/user/userApi";
+import { useCreateCustomerMutation } from "@/redux/features/user/userApi";
 import { saveUser } from "@/redux/features/user/userSlice";
 import { imageUploader } from "@/upload/upload";
+import { saveToLocalStorage } from "@/utils/auth";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
@@ -19,39 +20,44 @@ const Register = () => {
     formState: { errors },
   } = useForm();
   const [postSignup, { isError, error, isLoading, data: user }] =
-    useCreateUserMutation();
+    useCreateCustomerMutation();
   if (user) {
+    saveToLocalStorage(user?.data);
     dispatch(
       saveUser({
-        email: user.data?.user?.email,
-        _id: user.data?.user?._id,
+        email: user.data?.newUserData?.email,
         accessToken: user.data?.accessToken,
-        promfileImg: user.data?.promfileImg,
-        role: user.data?.role,
+        profileImg: user.data?.newUserData?.profileImg,
+        role: user.data?.newUserData?.role,
       })
     );
-    localStorage.setItem("homeTutor", user.data?.accessToken);
   }
   const handleLoin = async (data) => {
-    console.log(data);
+    //console.log(data);
     const image = data.image[0];
     let imageData = null;
     if (image) {
       imageData = await imageUploader(image);
       if (imageData?.success === "false") {
+        //console.log(imageData);
         toast.error("Image upload failed!");
       }
     }
     const options = {
-      name: {
-        firstName: data?.firstName,
-        lastName: data?.lastName,
-      },
-      email: data?.email,
-      contactNo: data?.contactNo,
-      address: data?.address,
       password: data?.password,
-      promfileImg: imageData?.data?.display_url,
+      email: data?.email,
+      profileImg: imageData?.data?.display_url,
+      customer: {
+        name: {
+          firstName: data?.firstName,
+          lastName: data?.lastName,
+        },
+        email: data?.email,
+        contactNo: data?.contactNo,
+        division: data?.division,
+        district: data?.district,
+        policeStation: data?.policeStation,
+      },
     };
     postSignup(options);
   };
@@ -66,6 +72,12 @@ const Register = () => {
         <h1 className="text-3xl font-bold text-center text-violet-800 mb-6">
           Please Register
         </h1>
+        <div className="text-center">
+          <p className="font-bold">You are a tutor? Please </p>
+          <Link href="/register/tutor" className="text-blue-600 font-bold">
+            Click Here
+          </Link>
+        </div>
         <form
           onSubmit={handleSubmit(handleLoin)}
           className="flex flex-col gap-4"
@@ -143,17 +155,57 @@ const Register = () => {
           </div>
           <div className="form-control w-full">
             <label className="label">
-              <span className="label-text">Address</span>
+              <span className="label-text">Division</span>
             </label>
             <input
               type="text"
-              placeholder="Enter Address"
+              placeholder="Enter Division"
               className="input input-bordered w-full"
-              {...register("address", { required: "Address is Required" })}
+              {...register("division", { required: "Division is Required" })}
             />
-            {errors.address && (
+            {errors.division && (
               <p>
-                <small className="text-red-600">{errors.address.message}</small>
+                <small className="text-red-600">
+                  {errors.division.message}
+                </small>
+              </p>
+            )}
+          </div>
+          <div className="form-control w-full">
+            <label className="label">
+              <span className="label-text">District</span>
+            </label>
+            <input
+              type="text"
+              placeholder="Enter District"
+              className="input input-bordered w-full"
+              {...register("district", { required: "District is Required" })}
+            />
+            {errors.district && (
+              <p>
+                <small className="text-red-600">
+                  {errors.district.message}
+                </small>
+              </p>
+            )}
+          </div>
+          <div className="form-control w-full">
+            <label className="label">
+              <span className="label-text">Police Station</span>
+            </label>
+            <input
+              type="text"
+              placeholder="Enter Police Station"
+              className="input input-bordered w-full"
+              {...register("policeStation", {
+                required: "Police Station is Required",
+              })}
+            />
+            {errors.policeStation && (
+              <p>
+                <small className="text-red-600">
+                  {errors.policeStation.message}
+                </small>
               </p>
             )}
           </div>

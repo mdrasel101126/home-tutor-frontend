@@ -2,10 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   email: "",
-  _id: "",
   accessToken: "",
   userLoader: true,
-  promfileImg: null,
+  profileImg: null,
   role: "",
 };
 const userSlice = createSlice({
@@ -14,10 +13,9 @@ const userSlice = createSlice({
   reducers: {
     saveUser: (state, action) => {
       state.email = action.payload?.email;
-      state._id = action.payload?._id;
       state.accessToken = action.payload?.accessToken;
       state.userLoader = false;
-      state.promfileImg = action.payload?.promfileImg;
+      state.profileImg = action.payload?.profileImg;
       state.role = action.payload?.role;
     },
     setAccessToken: (state, action) => {
@@ -28,10 +26,9 @@ const userSlice = createSlice({
     },
     removeUser: (state) => {
       state.email = "";
-      state._id = "";
       state.accessToken = "";
       state.userLoader = false;
-      state.promfileImg = null;
+      state.profileImg = null;
       state.role = "";
     },
   },

@@ -1,43 +1,31 @@
 import { useDispatch } from "react-redux";
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
-import { useGetUserQuery } from "@/redux/features/user/userApi";
-import {
-  saveUser,
-  setAccessToken,
-  setLoader,
-} from "@/redux/features/user/userSlice";
+import { saveUser, setLoader } from "@/redux/features/user/userSlice";
 import { Toaster } from "react-hot-toast";
+
+import { getFromLocalStorage } from "@/utils/auth";
+import { useEffect } from "react";
 
 const RootLayout = ({ children }) => {
   const dispatch = useDispatch();
-  let token = "";
-  if (typeof window !== "undefined") {
-    token = localStorage.getItem("homeTutor");
-  }
-  const { data: user, isError } = useGetUserQuery(undefined);
-  // console.log(user);
-  if (isError) {
-    dispatch(setLoader());
-  }
+  const user = getFromLocalStorage();
+  useEffect(() => {
+    if (user && user.accessToken) {
+      dispatch(
+        saveUser({
+          email: user?.email,
+          accessToken: user?.accessToken,
+          profileImg: user?.profileImg,
+          role: user?.role,
+        })
+      );
+    }
+    if (!user) {
+      dispatch(setLoader());
+    }
+  }, [dispatch, user]);
 
-  if (token) {
-    dispatch(setAccessToken(token));
-  }
-  if (user && token) {
-    dispatch(
-      saveUser({
-        email: user.data?.email,
-        _id: user.data?._id,
-        accessToken: token,
-        promfileImg: user?.data?.promfileImg,
-        role: user?.data?.role,
-      })
-    );
-  }
-  if (!token) {
-    dispatch(setLoader());
-  }
   return (
     <>
       <Navbar />
