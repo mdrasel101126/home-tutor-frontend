@@ -1,18 +1,8 @@
-# **Tutoring Service Booking and Management.**
+# HOME TUTOR Website
 
-### **Live Link: https://service-booking-and-management-frontend-mdminhazulislamkhan.vercel.app/home**
+## Live Website: https://home-tutor-frontend.vercel.app/api/v1/
 
-### **Backend Github: https://github.com/MDMinhazulIslamKhan/service_booking_and_management_backend**
-
----
-
----
-
-### **Requerment analysis - [_click here_](https://docs.google.com/document/d/1wmVlihhTgZ1x63fuUGuOHrgZYcqdmyRxRASa8SCU0q0/edit?usp=drive_link)**
-
-### **ER Diagram - [_click here_](https://drive.google.com/file/d/1rBo3T1ISZ1SXyn9I647a4376A44O7eM9/view)**
-
-### **video description - [_click here_](https://drive.google.com/file/d/1PZ00FBfUO7WFQlNrsa1VNzN7ehPUG-5X/view?usp=sharing)**
+## Backend Live Link: https://home-tutor-backend.vercel.app/api/v1
 
 ---
 
@@ -21,7 +11,7 @@
 - TypeScript
 - NextJs
 - Redux
-  - Redux Toolkit
+- Redux Toolkit
 - Axios
 - React Hook form
 - Hook Form Resolvers
@@ -33,8 +23,8 @@
 
 - All tutor with pagination and searching
 - Tutor booking
-  - Cancel booking
-  - Confirm booking
+- Cancel booking
+- Confirm booking
 - See details of tutor
 - Add to cart
 - User and Tutor different login and registration
@@ -74,13 +64,13 @@
 
 ## SUPER_ADMIN login info
 
-- email : minhaz@gmail.com
+- email : rasel@miah.com
 
-- password : 123456
+- password : 12345678
 
 ```json
 {
-  "email": "minhaz@gmail.com",
-  "password": "123456"
+  "email": "rasel@miah.com",
+  "password": "12345678"
 }
 ```

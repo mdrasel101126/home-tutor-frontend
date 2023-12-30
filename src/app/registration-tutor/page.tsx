@@ -7,9 +7,10 @@ export const metadata: Metadata = {
 
 const Login = () => {
   return (
-    <>
+    <div style={{ maxWidth:"1400px",
+    margin:"0 auto"}}>
       <TutorRegistration />
-    </>
+    </div>
   );
 };
 

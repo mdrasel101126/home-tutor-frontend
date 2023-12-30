@@ -204,8 +204,8 @@ const TutorDetails = ({ params }: { params: { id: string } }) => {
                 <Link href={`/booking/${data?.data?._id}`}>
                   <Button
                     style={{
-                      backgroundColor: "#fffbbd",
-                      color: "#edd874",
+                      backgroundColor: "#3b82f6",
+                      color: "white",
                       fontWeight: "bold",
                       width: "100%",
                     }}
@@ -216,8 +216,8 @@ const TutorDetails = ({ params }: { params: { id: string } }) => {
               ) : (
                 <Button
                   style={{
-                    backgroundColor: "#fffbbd",
-                    color: "#edd874",
+                    backgroundColor: "#3b82f6",
+                    color: "white",
                     fontWeight: "bold",
                     width: "100%",
                   }}
@@ -238,7 +238,6 @@ const TutorDetails = ({ params }: { params: { id: string } }) => {
           textAlign: "center",
           fontSize: "30px",
           margin: "20px 0 5px",
-          backgroundColor: "white",
         }}
       >
         Tutors Review
@@ -260,7 +259,7 @@ const TutorDetails = ({ params }: { params: { id: string } }) => {
                 hoverable
                 style={{
                   width: 180,
-                  background: "#f7f7e6",
+                  background: "white",
                   padding: "0",
                 }}
               >
@@ -292,7 +291,6 @@ const TutorDetails = ({ params }: { params: { id: string } }) => {
             justifyContent: "center",
             marginTop: "10px",
             padding: "20px 0",
-            backgroundColor: "white",
           }}
         >
           <Card bodyStyle={{ padding: "20px 20px", overflow: "hidden" }}>
@@ -312,7 +310,7 @@ const TutorDetails = ({ params }: { params: { id: string } }) => {
                 <FormSelectField
                   options={ratingOptions as SelectOptions[]}
                   name="rating"
-                  label="Your review"
+                  label="Your rating"
                   required
                 />
               </div>
