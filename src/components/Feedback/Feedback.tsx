@@ -3,7 +3,6 @@ import { useGetFeedbacksQuery } from "@/redux/api/feedbackApi";
 import { isLoggedIn } from "@/services/auth.service";
 import { Button, Card, Col, Empty, Row, Spin } from "antd";
 import Link from "next/link";
-import React from "react";
 
 const Feedback = () => {
   const { data, isLoading } = useGetFeedbacksQuery({ page: 1, limit: 12 });
@@ -19,7 +18,10 @@ const Feedback = () => {
             backgroundColor: "white",
           }}
         >
-          <Spin tip="Loading" size="large"></Spin>
+          <Spin
+            tip="Loading"
+            size="large"
+          ></Spin>
         </Empty>
       ) : (
         <Row
@@ -35,7 +37,13 @@ const Feedback = () => {
             data?.data?.data
               ?.slice(0, 9)
               .map((singleFeedback: any, index: number) => (
-                <Col key={index} sm={12} md={6} lg={4} className="gutter-row">
+                <Col
+                  key={index}
+                  sm={12}
+                  md={6}
+                  lg={4}
+                  className="gutter-row"
+                >
                   <Card
                     hoverable
                     style={{
