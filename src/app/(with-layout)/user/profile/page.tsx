@@ -8,117 +8,142 @@ import { useRouter } from "next/navigation";
 const UserProfile = () => {
   const { role } = getUserInfo() as any;
   const router = useRouter();
-  if (typeof window !== "undefined") {
-    if (!isLoggedIn() || role == "tutor") {
-      router.push("/home");
-    }
+
+  // Redirect if not logged in or role is tutor
+  if (typeof window !== "undefined" && (!isLoggedIn() || role === "tutor")) {
+    router.push("/home");
   }
 
   const { data, isLoading } = useUserOwnProfileQuery(undefined);
+
   return (
-    <div>
-      <Card bodyStyle={{ padding: "20px", overflow: "hidden" }}>
+    <div style={{ backgroundColor: "white", padding: "20px" }}>
+      {/* Profile Section */}
+      <Card
+        style={{
+          marginBottom: "20px",
+          borderRadius: "8px",
+          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+        }}
+        bodyStyle={{ padding: "20px" }}
+      >
         <h4
           style={{
             textAlign: "center",
-            fontSize: "30px",
-            margin: "10px 0",
-            backgroundColor: "white",
+            fontSize: "24px",
+            marginBottom: "20px",
+            color: "#333",
           }}
         >
           My Profile
         </h4>
         <Row
           justify="center"
-          style={{ backgroundColor: "white", padding: "10px" }}
           align="middle"
         >
-          <Col sm={12} md={15} lg={16}>
-            <div
+          <Col
+            xs={24}
+            md={16}
+            lg={12}
+          >
+            <Card
               style={{
-                width: "100%",
+                marginBottom: "20px",
+                borderRadius: "8px",
+                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
               }}
             >
-              <Card style={{ marginBottom: "20px" }}>
-                <p style={{ margin: "10px 0", fontSize: "15px" }}>
-                  <span style={{ fontWeight: "bold" }}>Name:</span>{" "}
-                  {data?.data?.fullName}
-                </p>
-                <p style={{ margin: "10px 0", fontSize: "15px" }}>
-                  <span style={{ fontWeight: "bold" }}>Email:</span>{" "}
-                  {data?.data?.email}
-                </p>
-                <p style={{ margin: "10px 0", fontSize: "15px" }}>
-                  <span style={{ fontWeight: "bold" }}>Number:</span>{" "}
-                  {data?.data?.phoneNumber}
-                </p>
-                <p style={{ margin: "10px 0", fontSize: "15px" }}>
-                  <span style={{ fontWeight: "bold" }}>Role:</span>{" "}
-                  {data?.data?.role}
-                </p>
-              </Card>
-              <Row justify="space-around">
-                <Col span={11} lg={6}>
-                  <Link href="/user/edit-profile">
-                    {" "}
-                    <Button
-                      style={{
-                        backgroundColor: "#fffbbd",
-                        color: "#80743c",
-                        width: "100%",
-                      }}
-                    >
-                      Edit Profile
-                    </Button>
-                  </Link>
-                </Col>
-                <Col span={12} lg={6}>
-                  <Link href="/user/change-password">
-                    <Button
-                      style={{
-                        backgroundColor: "#c3ffbd",
-                        color: "#07b318",
-                        width: "100%",
-                      }}
-                    >
-                      Change Password
-                    </Button>
-                  </Link>
-                </Col>
-              </Row>
-            </div>
+              <p style={{ margin: "10px 0", fontSize: "16px" }}>
+                <span style={{ fontWeight: "bold" }}>Name:</span>{" "}
+                {data?.data?.fullName}
+              </p>
+              <p style={{ margin: "10px 0", fontSize: "16px" }}>
+                <span style={{ fontWeight: "bold" }}>Email:</span>{" "}
+                {data?.data?.email}
+              </p>
+              <p style={{ margin: "10px 0", fontSize: "16px" }}>
+                <span style={{ fontWeight: "bold" }}>Number:</span>{" "}
+                {data?.data?.phoneNumber}
+              </p>
+              <p style={{ margin: "10px 0", fontSize: "16px" }}>
+                <span style={{ fontWeight: "bold" }}>Role:</span>{" "}
+                {data?.data?.role}
+              </p>
+            </Card>
+            <Row
+              justify="space-around"
+              gutter={[16, 16]}
+            >
+              <Col
+                span={12}
+                md={8}
+              >
+                <Link href="/user/edit-profile">
+                  <Button
+                    style={{
+                      backgroundColor: "#fffbbd",
+                      color: "#80743c",
+                      width: "100%",
+                      borderRadius: "4px",
+                    }}
+                  >
+                    Edit Profile
+                  </Button>
+                </Link>
+              </Col>
+              <Col
+                span={12}
+                md={8}
+              >
+                <Link href="/user/change-password">
+                  <Button
+                    style={{
+                      backgroundColor: "#c3ffbd",
+                      color: "#07b318",
+                      width: "100%",
+                      borderRadius: "4px",
+                    }}
+                  >
+                    Change Password
+                  </Button>
+                </Link>
+              </Col>
+            </Row>
           </Col>
         </Row>
       </Card>
+
+      {/* History Section */}
       <h4
         style={{
           textAlign: "center",
-          fontSize: "30px",
-          margin: "20px 0 5px",
-          backgroundColor: "white",
+          fontSize: "24px",
+          margin: "20px 0",
+          color: "#333",
         }}
       >
         History
       </h4>
       <Row
         justify="center"
-        style={{
-          backgroundColor: "white",
-          width: "100%",
-          padding: "20px",
-        }}
-        align="middle"
-        gutter={[10, 24]}
+        gutter={[16, 16]}
+        style={{ width: "100%", padding: "20px" }}
       >
-        {data?.data?.history?.length !== 0 ? (
-          data?.data?.history?.map((his: any, index: number) => (
-            <Col key={index} sm={12} md={6} lg={4}>
+        {data?.data?.history?.length ? (
+          data.data.history.map((his: any, index: number) => (
+            <Col
+              key={index}
+              xs={24}
+              sm={12}
+              md={8}
+              lg={6}
+            >
               <Card
                 hoverable
                 style={{
-                  width: 180,
+                  borderRadius: "8px",
+                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
                   background: "#f7f7e6",
-                  padding: "0",
                 }}
               >
                 <p style={{ margin: "10px 0", textAlign: "center" }}>
@@ -149,7 +174,11 @@ const UserProfile = () => {
             </Col>
           ))
         ) : (
-          <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+          <Empty
+            image={Empty.PRESENTED_IMAGE_SIMPLE}
+            description="No history available"
+            style={{ margin: "20px 0" }}
+          />
         )}
       </Row>
     </div>

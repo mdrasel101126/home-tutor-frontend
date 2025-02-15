@@ -4,12 +4,14 @@ import React, { useState } from "react";
 import maleTeacher from "../../../../assets/maleTeacher.png";
 import femaleTeacher from "../../../../assets/femaleTeacher.png";
 import {
+  Avatar,
   Button,
   Card,
   Col,
   Descriptions,
   Divider,
   Empty,
+  Rate,
   Row,
   Space,
   Tag,
@@ -43,6 +45,7 @@ import {
   ShoppingCartOutlined,
   CalendarOutlined,
 } from "@ant-design/icons";
+import Paragraph from "antd/es/typography/Paragraph";
 
 const { Title, Text } = Typography;
 
@@ -263,15 +266,6 @@ const TutorDetails = ({ params }: { params: { id: string } }) => {
               md={8}
               lg={6}
             >
-              {/* <Button
-                type="primary"
-                icon={<CalendarOutlined />}
-                size="large"
-                block
-                onClick={handleBooking}
-              >
-                Book Tutor
-              </Button> */}
               {isLoggedIn() ? (
                 <Link href={`/booking/${data?.data?._id}`}>
                   <Button
@@ -327,29 +321,7 @@ const TutorDetails = ({ params }: { params: { id: string } }) => {
               md={6}
               lg={4}
             >
-              <Card
-                hoverable
-                style={{
-                  width: 180,
-                  background: "white",
-                  padding: "0",
-                }}
-              >
-                <h4
-                  style={{
-                    fontWeight: "bold",
-                    textAlign: "center",
-                  }}
-                >
-                  {rev.name}
-                </h4>
-                <p style={{ margin: "10px 0 0 0" }}>{rev.review}</p>
-                <p style={{ margin: "10px 0", textAlign: "center" }}>
-                  <span style={{ fontWeight: "bold" }}>
-                    Rating: {rev.rating}
-                  </span>
-                </p>
-              </Card>
+              <ReviewCard rev={rev} />
             </Col>
           ))
         ) : (
@@ -451,3 +423,63 @@ const TutorDetails = ({ params }: { params: { id: string } }) => {
 };
 
 export default TutorDetails;
+
+interface ReviewCardProps {
+  rev: {
+    name: string;
+    review: string;
+    rating: number;
+  };
+}
+
+const ReviewCard: React.FC<ReviewCardProps> = ({ rev }) => {
+  return (
+    <Card
+      hoverable
+      style={{
+        width: 240,
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+      }}
+      bodyStyle={{
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      <div style={{ display: "flex", alignItems: "center", marginBottom: 16 }}>
+        <Avatar
+          icon={<UserOutlined />}
+          size="large"
+          style={{ marginRight: 12 }}
+        />
+        <Title
+          level={4}
+          style={{ margin: 0 }}
+        >
+          {rev.name}
+        </Title>
+      </div>
+      <Paragraph
+        ellipsis={{
+          rows: 3,
+          expandable: true,
+          symbol: "Read more",
+        }}
+        style={{ flex: 1 }}
+      >
+        {rev.review}
+      </Paragraph>
+      <div style={{ marginTop: "auto", textAlign: "center" }}>
+        <Rate
+          disabled
+          defaultValue={rev.rating}
+        />
+        <Paragraph style={{ marginTop: 8, fontWeight: "bold" }}>
+          Rating: {rev.rating}
+        </Paragraph>
+      </div>
+    </Card>
+  );
+};

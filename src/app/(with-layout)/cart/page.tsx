@@ -1,10 +1,11 @@
 "use client";
 import { removeFromLocalStorage } from "@/services/cart.service";
 import { getFromLocalStorage } from "@/utils/local-storage";
-import { Button, Card, Col, Empty, Row } from "antd";
+import { Card, Button, Typography, Empty, List, Space, Tag } from "antd";
+import { DeleteOutlined, InfoCircleOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-
+const { Title, Text } = Typography;
 const Cart = () => {
   const [data, setData] = useState([]);
 
@@ -22,99 +23,75 @@ const Cart = () => {
     getCartData();
   }, []);
   return (
-    <Card
-      bodyStyle={{ padding: "20px", overflow: "hidden", minHeight: "100vh" }}
-      style={{ margin: "0 30px" }}
-    >
-      <h4
-        style={{
-          textAlign: "center",
-          fontSize: "30px",
-          margin: "10px 0",
-          backgroundColor: "white",
-        }}
+    <Card style={{ margin: "0 30px" }}>
+      <Title
+        level={2}
+        style={{ textAlign: "center", margin: "20px 0" }}
       >
         My Cart
-      </h4>
-      <Row
-        justify="space-evenly"
-        style={{
-          backgroundColor: "white",
-          width: "100%",
-          padding: "20px",
-        }}
-        align="middle"
-        gutter={[10, 10]}
-      >
-        {data?.length ? (
-          data?.map((singleCartTutor: any, index: number) => (
-            <Card
-              key={index}
-              hoverable
-              style={{
-                width: 280,
-                margin: "0 5px",
-                backgroundColor: "#f3f4de",
-              }}
-            >
-              <p style={{ margin: "10px 0" }}>
-                <span style={{ fontWeight: "bold" }}>Name:</span>{" "}
-                {singleCartTutor.name}
-              </p>
-              <p style={{ margin: "10px 0" }}>
-                <span style={{ fontWeight: "bold" }}>Medium:</span>{" "}
-                {singleCartTutor.medium}
-              </p>
-              <p style={{ margin: "10px 0" }}>
-                <span style={{ fontWeight: "bold" }}>Preferred Class:</span>{" "}
-                {singleCartTutor.class}
-              </p>
-              <p style={{ margin: "10px 0" }}>
-                <span style={{ fontWeight: "bold" }}>Salary:</span>{" "}
-                {singleCartTutor.salary}
-              </p>
-              <Row justify="space-between">
-                <Col span={11}>
+      </Title>
+      {data?.length ? (
+        <List
+          grid={{
+            gutter: 16,
+            xs: 1,
+            sm: 2,
+            md: 3,
+            lg: 3,
+            xl: 4,
+            xxl: 4,
+          }}
+          dataSource={data}
+          renderItem={(singleCartTutor: any) => (
+            <List.Item>
+              <Card
+                hoverable
+                style={{ backgroundColor: "#f0f2f5" }}
+                actions={[
                   <Button
+                    key="remove"
+                    type="text"
+                    danger
+                    icon={<DeleteOutlined />}
                     onClick={() =>
                       removeFromCart(singleCartTutor.id, singleCartTutor.name)
                     }
-                    style={{
-                      backgroundColor: "#ffbdbd",
-                      color: "#b30707",
-                      fontWeight: "bold",
-                      width: "100%",
-                      padding: "0",
-                    }}
                   >
-                    <h5>Remove</h5>
-                  </Button>
-                </Col>
-                <Col span={12}>
-                  <Link href={`/tutor/${singleCartTutor.id}`}>
+                    Remove
+                  </Button>,
+                  <Link
+                    href={`/tutor/${singleCartTutor.id}`}
+                    key="details"
+                  >
                     <Button
-                      style={{
-                        backgroundColor: "#c3ffbd",
-                        color: "#07b318",
-                        fontWeight: "bold",
-                        width: "100%",
-                        padding: "0",
-                      }}
+                      type="link"
+                      icon={<InfoCircleOutlined />}
                     >
                       Details
                     </Button>
-                  </Link>
-                </Col>
-              </Row>
-            </Card>
-          ))
-        ) : (
-          <Empty
-            image={Empty.PRESENTED_IMAGE_SIMPLE}
-            style={{ margin: "50px auto" }}
-          />
-        )}
-      </Row>
+                  </Link>,
+                ]}
+              >
+                <Space
+                  direction="vertical"
+                  size="small"
+                >
+                  <Text strong>{singleCartTutor.name}</Text>
+                  <Text type="secondary">Medium: {singleCartTutor.medium}</Text>
+                  <Text type="secondary">Class: {singleCartTutor.class}</Text>
+                  <Tag color="green">Salary: {singleCartTutor.salary}</Tag>
+                </Space>
+              </Card>
+            </List.Item>
+          )}
+        />
+      ) : (
+        <Empty
+          image={Empty.PRESENTED_IMAGE_SIMPLE}
+          description="Your cart is empty"
+          style={{ margin: "50px auto" }}
+        />
+      )}
     </Card>
   );
 };
