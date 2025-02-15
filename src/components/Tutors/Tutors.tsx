@@ -52,7 +52,7 @@ const AllTutors = () => {
             data?.data?.data?.map((singleData: any, index: number) => (
               <Col
                 key={index}
-                xs={15}
+                xs={24}
                 sm={10}
                 md={8}
                 lg={6}
