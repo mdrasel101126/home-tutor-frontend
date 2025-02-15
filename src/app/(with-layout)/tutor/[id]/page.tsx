@@ -3,7 +3,19 @@
 import React, { useState } from "react";
 import maleTeacher from "../../../../assets/maleTeacher.png";
 import femaleTeacher from "../../../../assets/femaleTeacher.png";
-import { Button, Card, Col, Empty, Row, message } from "antd";
+import {
+  Button,
+  Card,
+  Col,
+  Descriptions,
+  Divider,
+  Empty,
+  Row,
+  Space,
+  Tag,
+  Typography,
+  message,
+} from "antd";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -22,6 +34,18 @@ import FormSelectField, {
 import { ratingOptions } from "@/constants/golbal";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { reviewSchema } from "@/schemas/allValidationSchema";
+import {
+  UserOutlined,
+  BookOutlined,
+  BankOutlined,
+  TeamOutlined,
+  DollarOutlined,
+  ShoppingCartOutlined,
+  CalendarOutlined,
+} from "@ant-design/icons";
+
+const { Title, Text } = Typography;
+
 const TutorDetails = ({ params }: { params: { id: string } }) => {
   const { data, isLoading } = useSingleTutorByUserQuery(params.id);
   const [postReview] = useReviewTutorMutation(undefined);
@@ -38,6 +62,8 @@ const TutorDetails = ({ params }: { params: { id: string } }) => {
     setModalData(reviewData);
     setOpen(true);
   };
+
+  const tutorData = data?.data;
   return (
     <div>
       <Card bodyStyle={{ padding: "20px", overflow: "hidden" }}>
@@ -51,176 +77,217 @@ const TutorDetails = ({ params }: { params: { id: string } }) => {
         >
           Tutor Details
         </h4>
-        <Row
-          justify="center"
-          style={{ backgroundColor: "white", padding: "10px" }}
-          align="middle"
-        >
-          <Col sm={12} md={9} lg={8}>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
+        <Card>
+          <Row
+            gutter={[24, 24]}
+            justify="center"
+            align="top"
+          >
+            <Col
+              xs={24}
+              sm={24}
+              md={8}
+              lg={6}
             >
-              <Image
-                style={{ width: "100%" }}
-                src={data?.data?.gender == "male" ? maleTeacher : femaleTeacher}
-                width={300}
-                alt="login image"
-              />
-            </div>
-          </Col>
-          <Col sm={12} md={15} lg={16}>
-            <div
-              style={{
-                width: "100%",
-              }}
-            >
-              <h4
-                style={{
-                  textAlign: "center",
-                  fontSize: "20px",
-                  margin: "10px 60px 20px -40px",
-                  backgroundColor: "white",
-                  textDecoration: "underline",
-                }}
+              <Card
+                cover={
+                  <Image
+                    src={
+                      tutorData?.gender === "male" ? maleTeacher : femaleTeacher
+                    }
+                    alt={`${tutorData?.fullName} profile`}
+                    width={300}
+                    height={300}
+                    layout="responsive"
+                    objectFit="cover"
+                  />
+                }
               >
-                Full Name : {data?.data?.fullName}
-              </h4>
-              <Row>
-                <Col style={{ marginBottom: "20px" }} md={12}>
-                  <p style={{ margin: "10px 0" }}>
-                    <span style={{ fontWeight: "bold" }}>Gender:</span>{" "}
-                    {data?.data?.gender}
-                  </p>
-                  <p style={{ margin: "10px 0" }}>
-                    <span style={{ fontWeight: "bold" }}>Qualification:</span>{" "}
-                    {data?.data?.qualification}
-                  </p>
-                  <p style={{ margin: "10px 0" }}>
-                    <span style={{ fontWeight: "bold" }}>Institution:</span>{" "}
-                    {data?.data?.institution}
-                  </p>
-                  <p style={{ margin: "10px 0" }}>
-                    <span style={{ fontWeight: "bold" }}>Group:</span>{" "}
-                    {data?.data?.group}
-                  </p>
-                  <p style={{ margin: "10px 0" }}>
-                    <span style={{ fontWeight: "bold" }}>Subject:</span>{" "}
-                    {data?.data?.subject}
-                  </p>
-                  <p style={{ margin: "10px 0" }}>
-                    <span style={{ fontWeight: "bold" }}>Medium:</span>{" "}
-                    {data?.data?.medium}
-                  </p>
-                  <p style={{ margin: "10px 0" }}>
-                    <span style={{ fontWeight: "bold" }}>Present Address:</span>{" "}
-                    {data?.data?.presentAddress}
-                  </p>{" "}
-                  <p style={{ margin: "10px 0" }}>
-                    <span style={{ fontWeight: "bold" }}>Current Status:</span>{" "}
-                    {data?.data?.currentStatus}
-                  </p>
-                </Col>
-                <Col md={12}>
-                  <div style={{ margin: "10px 0" }}>
-                    <p style={{ fontWeight: "bold", display: "inline" }}>
-                      Expert In:
-                    </p>
-                    {data?.data?.expertIn?.map((ex: any, index: number) => (
-                      <span
-                        style={{ marginLeft: "15px", color: "gray" }}
-                        key={index}
+                <Card.Meta
+                  title={<Title level={3}>{tutorData?.fullName}</Title>}
+                  description={
+                    <Space direction="vertical">
+                      <Tag
+                        icon={<UserOutlined />}
+                        color="blue"
                       >
-                        "{ex}"
-                      </span>
-                    ))}
-                  </div>{" "}
-                  <p style={{ margin: "10px 0" }}>
-                    <span style={{ fontWeight: "bold" }}>Preferred Class:</span>{" "}
-                    {data?.data?.preferredArea}
-                  </p>{" "}
-                  <p style={{ margin: "10px 0" }}>
-                    <span style={{ fontWeight: "bold" }}>
-                      Preferred Medium:
-                    </span>{" "}
-                    {data?.data?.preferredMedium}
-                  </p>{" "}
-                  <p style={{ margin: "10px 0" }}>
-                    <span style={{ fontWeight: "bold" }}>
-                      Preferred Subject:
-                    </span>{" "}
-                    {data?.data?.preferredSubject}
-                  </p>{" "}
-                  <p style={{ margin: "10px 0" }}>
-                    <span style={{ fontWeight: "bold" }}>Preferred Area:</span>{" "}
-                    {data?.data?.preferredClass}
-                  </p>
-                  <p style={{ margin: "10px 0" }}>
-                    <span style={{ fontWeight: "bold" }}>Day Per Week:</span>{" "}
-                    {data?.data?.dayPerWeek}
-                  </p>
-                  <p style={{ margin: "10px 0" }}>
-                    <span style={{ fontWeight: "bold" }}>
-                      Expected Minimum Salary:
-                    </span>{" "}
-                    {data?.data?.expectedMinSalary}
-                  </p>
-                  <p style={{ margin: "10px 0" }}>
-                    <span style={{ fontWeight: "bold" }}>Current Tuition:</span>{" "}
-                    {data?.data?.currentTuition}
-                  </p>
-                </Col>
-              </Row>
-            </div>
-          </Col>
-        </Row>
+                        {tutorData?.gender}
+                      </Tag>
+                      <Tag
+                        icon={<BookOutlined />}
+                        color="green"
+                      >
+                        {tutorData?.qualification}
+                      </Tag>
+                      <Tag
+                        icon={<BankOutlined />}
+                        color="orange"
+                      >
+                        {tutorData?.institution}
+                      </Tag>
+                    </Space>
+                  }
+                />
+              </Card>
+            </Col>
+            <Col
+              xs={24}
+              sm={24}
+              md={16}
+              lg={18}
+            >
+              <Descriptions
+                title="Personal Information"
+                bordered
+                column={{ xs: 1, sm: 2, md: 2, lg: 3 }}
+              >
+                <Descriptions.Item label="Group">
+                  {tutorData?.group}
+                </Descriptions.Item>
+                <Descriptions.Item label="Subject">
+                  {tutorData?.subject}
+                </Descriptions.Item>
+                <Descriptions.Item label="Medium">
+                  {tutorData?.medium}
+                </Descriptions.Item>
+                <Descriptions.Item label="Present Address">
+                  {tutorData?.presentAddress}
+                </Descriptions.Item>
+                <Descriptions.Item label="Current Status">
+                  {tutorData?.currentStatus}
+                </Descriptions.Item>
+              </Descriptions>
+
+              <Divider orientation="left">Expertise</Divider>
+              <Space wrap>
+                {tutorData?.expertIn?.map(
+                  (expertise: string, index: number) => (
+                    <Tag
+                      key={index}
+                      color="purple"
+                    >
+                      {expertise}
+                    </Tag>
+                  ),
+                )}
+              </Space>
+
+              <Divider orientation="left">Preferences</Divider>
+              <Descriptions
+                bordered
+                column={{ xs: 1, sm: 2, md: 2, lg: 3 }}
+              >
+                <Descriptions.Item label="Preferred Class">
+                  {tutorData?.preferredArea}
+                </Descriptions.Item>
+                <Descriptions.Item label="Preferred Medium">
+                  {tutorData?.preferredMedium}
+                </Descriptions.Item>
+                <Descriptions.Item label="Preferred Subject">
+                  {tutorData?.preferredSubject}
+                </Descriptions.Item>
+                <Descriptions.Item label="Preferred Area">
+                  {tutorData?.preferredClass}
+                </Descriptions.Item>
+                <Descriptions.Item label="Day Per Week">
+                  {tutorData?.dayPerWeek}
+                </Descriptions.Item>
+              </Descriptions>
+
+              <Divider orientation="left">Financial Information</Divider>
+              <Descriptions
+                bordered
+                column={1}
+              >
+                <Descriptions.Item
+                  label={
+                    <Text strong>
+                      <DollarOutlined /> Expected Minimum Salary
+                    </Text>
+                  }
+                >
+                  <Text
+                    type="success"
+                    strong
+                  >
+                    {tutorData?.expectedMinSalary}
+                  </Text>
+                </Descriptions.Item>
+                <Descriptions.Item
+                  label={
+                    <Text strong>
+                      <TeamOutlined /> Current Tuition
+                    </Text>
+                  }
+                >
+                  {tutorData?.currentTuition}
+                </Descriptions.Item>
+              </Descriptions>
+            </Col>
+          </Row>
+        </Card>
         {role == "tutor" || (
-          <Row justify="space-evenly">
-            <Col span={11} lg={6}>
+          <Row
+            gutter={[16, 16]}
+            justify="center"
+            style={{ marginTop: 24 }}
+          >
+            <Col
+              xs={24}
+              sm={12}
+              md={8}
+              lg={6}
+            >
               <Button
-                style={{
-                  backgroundColor: "#c3ffbd",
-                  color: "#07b318",
-                  width: "100%",
-                }}
+                type="primary"
+                icon={<ShoppingCartOutlined />}
+                size="large"
+                block
                 onClick={() =>
                   addToLocalStorage(
                     data?.data?._id,
                     data?.data?.fullName,
                     data?.data?.medium,
                     data?.data?.preferredClass,
-                    data?.data?.expectedMinSalary
+                    data?.data?.expectedMinSalary,
                   )
                 }
+                style={{ backgroundColor: "#52c41a", borderColor: "#52c41a" }}
               >
-                <h5>Add to cart</h5>
+                Add to cart
               </Button>
-            </Col>{" "}
-            <Col span={11} lg={6}>
+            </Col>
+            <Col
+              xs={24}
+              sm={12}
+              md={8}
+              lg={6}
+            >
+              {/* <Button
+                type="primary"
+                icon={<CalendarOutlined />}
+                size="large"
+                block
+                onClick={handleBooking}
+              >
+                Book Tutor
+              </Button> */}
               {isLoggedIn() ? (
                 <Link href={`/booking/${data?.data?._id}`}>
                   <Button
-                    style={{
-                      backgroundColor: "#3b82f6",
-                      color: "white",
-                      fontWeight: "bold",
-                      width: "100%",
-                    }}
+                    type="primary"
+                    icon={<CalendarOutlined />}
+                    size="large"
+                    block
                   >
-                    Booking
+                    Book Tutor
                   </Button>
                 </Link>
               ) : (
                 <Button
-                  style={{
-                    backgroundColor: "#3b82f6",
-                    color: "white",
-                    fontWeight: "bold",
-                    width: "100%",
-                  }}
+                  type="primary"
+                  icon={<CalendarOutlined />}
+                  block
                   onClick={() => {
                     message.error("Please login...");
                     router.push("/login");
@@ -254,7 +321,12 @@ const TutorDetails = ({ params }: { params: { id: string } }) => {
       >
         {data?.data?.reviews?.length !== 0 ? (
           data?.data?.reviews?.map((rev: any, index: number) => (
-            <Col key={index} sm={12} md={6} lg={4}>
+            <Col
+              key={index}
+              sm={12}
+              md={6}
+              lg={4}
+            >
               <Card
                 hoverable
                 style={{
@@ -294,7 +366,10 @@ const TutorDetails = ({ params }: { params: { id: string } }) => {
           }}
         >
           <Card bodyStyle={{ padding: "20px 20px", overflow: "hidden" }}>
-            <Form submitHandler={onSubmit} resolver={yupResolver(reviewSchema)}>
+            <Form
+              submitHandler={onSubmit}
+              resolver={yupResolver(reviewSchema)}
+            >
               <h1
                 style={{
                   margin: "0 0 15px 0px",
@@ -304,7 +379,11 @@ const TutorDetails = ({ params }: { params: { id: string } }) => {
                 Review Tutor
               </h1>
               <div style={{ margin: "5px 0" }}>
-                <FormTextArea name="review" label="Your review" required />
+                <FormTextArea
+                  name="review"
+                  label="Your review"
+                  required
+                />
               </div>
               <div style={{ margin: "5px 0" }}>
                 <FormSelectField
@@ -347,7 +426,7 @@ const TutorDetails = ({ params }: { params: { id: string } }) => {
           try {
             if (role == "tutor") {
               message.error(
-                "You are a tutor.Please login as a user to review tutor..."
+                "You are a tutor.Please login as a user to review tutor...",
               );
               setOpen(false);
               return;

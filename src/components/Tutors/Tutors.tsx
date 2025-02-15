@@ -1,12 +1,25 @@
 "use client";
 import React from "react";
-import { Button, Card, Col, Empty, Row, Spin } from "antd";
+import {
+  Button,
+  Card,
+  Col,
+  Divider,
+  Empty,
+  Row,
+  Space,
+  Spin,
+  Tag,
+  Typography,
+} from "antd";
 import Image from "next/image";
 import maleTeacher from "../../assets/maleTeacher.png";
 import femaleTeacher from "../../assets/femaleTeacher.png";
 import { useAllTutorsByUserQuery } from "@/redux/api/tutorApi";
 import Link from "next/link";
 import { addToLocalStorage } from "@/services/cart.service";
+import { ShoppingCartOutlined, InfoCircleOutlined } from "@ant-design/icons";
+const { Title, Text } = Typography;
 
 const AllTutors = () => {
   const { data, isLoading } = useAllTutorsByUserQuery({ page: 1, limit: 10 });
@@ -22,7 +35,10 @@ const AllTutors = () => {
               padding: "50px",
             }}
           >
-            <Spin tip="Loading" size="large"></Spin>
+            <Spin
+              tip="Loading"
+              size="large"
+            ></Spin>
           </Empty>
         </>
       ) : (
@@ -34,89 +50,109 @@ const AllTutors = () => {
         >
           {data?.data?.data.length !== 0 ? (
             data?.data?.data?.map((singleData: any, index: number) => (
-              <Col key={index} xs={15} sm={10} md={8} lg={6}>
+              <Col
+                key={index}
+                xs={15}
+                sm={10}
+                md={8}
+                lg={6}
+              >
                 <Card
                   hoverable
-                  style={{ width: "100%", margin: "0 auto 15px auto" }}
+                  style={{
+                    width: "100%",
+                    maxWidth: 300,
+                    margin: "0 auto 24px auto",
+                  }}
                   cover={
-                    <Image
-                      alt="tutorImage"
-                      src={
-                        singleData.gender == "male"
-                          ? maleTeacher
-                          : femaleTeacher
-                      }
-                      width={200}
-                      height={200}
-                    />
+                    <div
+                      style={{
+                        position: "relative",
+                        height: 200,
+                        background: "#f0f2f5",
+                      }}
+                    >
+                      <Image
+                        alt="tutorImage"
+                        src={
+                          singleData.gender === "male"
+                            ? maleTeacher
+                            : femaleTeacher
+                        }
+                        layout="fill"
+                        style={{
+                          aspectRatio: 2,
+                        }}
+                      />
+                    </div>
                   }
+                  actions={[
+                    <Button
+                      key="addToCart"
+                      type="primary"
+                      icon={<ShoppingCartOutlined />}
+                      onClick={() =>
+                        addToLocalStorage(
+                          singleData._id,
+                          singleData.fullName,
+                          singleData.medium,
+                          singleData.preferredClass,
+                          singleData.expectedMinSalary,
+                        )
+                      }
+                      style={{
+                        backgroundColor: "#52c41a",
+                        borderColor: "#52c41a",
+                      }}
+                    >
+                      Add to cart
+                    </Button>,
+                    <Link
+                      href={`/tutor/${singleData._id}`}
+                      key="details"
+                    >
+                      <Button
+                        type="primary"
+                        icon={<InfoCircleOutlined />}
+                      >
+                        Details
+                      </Button>
+                    </Link>,
+                  ]}
                 >
-                  <h2
-                    style={{
-                      fontWeight: "bold",
-                      textAlign: "center",
-                    }}
+                  <Title
+                    level={3}
+                    style={{ textAlign: "center", marginBottom: 16 }}
                   >
                     {singleData.fullName}
-                  </h2>
-                  <p style={{ margin: "10px 0" }}>
-                    <span style={{ fontWeight: "bold" }}>Institution:</span>{" "}
-                    {singleData.institution}
-                  </p>
-                  <p style={{ margin: "10px 0" }}>
-                    <span style={{ fontWeight: "bold" }}>Medium:</span>{" "}
-                    {singleData.medium}
-                  </p>
-                  <p style={{ margin: "10px 0" }}>
-                    <span style={{ fontWeight: "bold" }}>
-                      Preferred Subject:
-                    </span>{" "}
-                    {singleData.preferredSubject}
-                  </p>
-                  <p style={{ margin: "10px 0" }}>
-                    <span style={{ fontWeight: "bold" }}>Preferred Class:</span>{" "}
-                    {singleData.preferredClass}
-                  </p>
-                  <p style={{ margin: "10px 0" }}>
-                    <span style={{ fontWeight: "bold" }}>Expected Salary:</span>{" "}
-                    {singleData.expectedMinSalary}
-                  </p>
-                  <Row justify="space-between">
-                    <Col span={11}>
-                      <Button
-                        style={{
-                          backgroundColor: "#c3ffbd",
-                          color: "#07b318",
-                          width: "100%",
-                        }}
-                        onClick={() =>
-                          addToLocalStorage(
-                            singleData._id,
-                            singleData.fullName,
-                            singleData.medium,
-                            singleData.preferredClass,
-                            singleData.expectedMinSalary
-                          )
-                        }
-                      >
-                        <h5>Add to cart</h5>
-                      </Button>
-                    </Col>{" "}
-                    <Col span={11}>
-                      <Link href={`/tutor/${singleData._id}`}>
-                        <Button
-                          style={{
-                            backgroundColor: "#3b82f6",
-                            color: "white",
-                            fontWeight: "bold",
-                            width: "100%",
-                          }}
-                        >
-                          Details
-                        </Button>
-                      </Link>
-                    </Col>
-                  </Row>
+                  </Title>
+                  <Divider style={{ margin: "12px 0" }} />
+                  <Space
+                    direction="vertical"
+                    size="small"
+                    style={{ width: "100%" }}
+                  >
+                    <InfoItem
+                      label="Institution"
+                      value={singleData.institution}
+                    />
+                    <InfoItem
+                      label="Medium"
+                      value={singleData.medium}
+                    />
+                    <InfoItem
+                      label="Preferred Subject"
+                      value={singleData.preferredSubject}
+                    />
+                    <InfoItem
+                      label="Preferred Class"
+                      value={singleData.preferredClass}
+                    />
+                    <InfoItem
+                      label="Expected Salary"
+                      value={singleData.expectedMinSalary}
+                    />
+                  </Space>
                 </Card>
               </Col>
             ))
@@ -154,3 +190,16 @@ const AllTutors = () => {
 };
 
 export default AllTutors;
+const InfoItem = ({ label, value }: any) => (
+  <Row
+    justify="space-between"
+    align="middle"
+  >
+    <Col>
+      <Text strong>{label}:</Text>
+    </Col>
+    <Col>
+      <Tag color="blue">{value}</Tag>
+    </Col>
+  </Row>
+);

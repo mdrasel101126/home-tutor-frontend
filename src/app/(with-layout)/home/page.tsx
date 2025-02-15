@@ -10,6 +10,8 @@ import AllTutors from "@/components/Tutors/Tutors";
 import Feedback from "@/components/Feedback/Feedback";
 import Link from "next/link";
 import { Metadata } from "next";
+import Title from "antd/es/typography/Title";
+import Paragraph from "antd/es/typography/Paragraph";
 
 export const metadata: Metadata = {
   title: "Home Tutor",
@@ -23,9 +25,9 @@ const Home = () => {
           fontSize: "40px",
           textAlign: "center",
           fontWeight: "bold",
-          color:"#3b82f6",
-          marginTop:"32px",
-          fontFamily:"monospace"
+          color: "#3b82f6",
+          marginTop: "32px",
+          fontFamily: "monospace",
         }}
       >
         Welcome to Home Tutor
@@ -44,7 +46,7 @@ const Home = () => {
           padding: "5px 0",
           fontWeight: "bolder",
           margin: "20px 0 10px",
-          color:"#3b82f6"
+          color: "#3b82f6",
         }}
       >
         Our Services
@@ -52,105 +54,173 @@ const Home = () => {
       <Row
         justify="center"
         align="middle"
-        gutter={20}
-
+        gutter={10}
       >
-        <Col xs={15} sm={10} lg={8}>
-          <Card
-            hoverable
-            style={{ width:"100%",margin:"20px 0" }}
-            cover={
+        <Card
+          hoverable
+          style={{ width: "100%", maxWidth: 300, margin: "20px auto" }}
+          cover={
+            <div style={{ position: "relative", height: 200 }}>
               <Image
-                alt="SchoolTeacher"
+                alt="School Teacher"
                 src={SchoolTeacher}
-                width={200}
-                height={200}
+                layout="fill"
+                className="w-full object-contain"
               />
-            }
-          >
-            <Meta
-              title="School Teacher"
-              description="See our best School teacher for your children. Our tutors will take great care to make your child a successful person."
-            />
-            <Link href="/all-tutor?preferClass=1-10">
-              <Button
+            </div>
+          }
+          bodyStyle={{ padding: 20 }}
+        >
+          <Meta
+            title={
+              <Title
+                level={3}
                 style={{
-                  backgroundColor: "#3b82f6",
-                  color: "white",
-                  fontWeight: "bold",
-                  width: "100%",
-                  marginTop: "20px",
+                  marginBottom: 16,
+                  display: "flex",
+                  alignItems: "center",
                 }}
               >
-                <h5>See All</h5>
-              </Button>
-            </Link>
-          </Card>
-        </Col>
-        <Col xs={15} sm={10} lg={8}>
-          <Card
-            hoverable
-            style={{ width: "100%",margin:"20px 0"}}
-            cover={
+                School Teacher
+              </Title>
+            }
+            description={
+              <Paragraph>
+                See our best School teachers for your children. Our tutors will
+                take great care to make your child a successful person.
+              </Paragraph>
+            }
+          />
+          <Link
+            href="/all-tutor?preferClass=1-10"
+            passHref
+          >
+            <Button
+              type="primary"
+              block
+              size="large"
+              style={{
+                marginTop: 20,
+                height: "auto",
+                padding: "10px 0",
+                fontSize: 16,
+                fontWeight: "bold",
+              }}
+            >
+              See All Teachers
+            </Button>
+          </Link>
+        </Card>
+        <Card
+          hoverable
+          style={{ width: "100%", maxWidth: 300, margin: "20px auto" }}
+          cover={
+            <div style={{ position: "relative", height: 200 }}>
               <Image
-                alt="CollegeTeacher"
+                alt="Colleg Teacher"
                 src={CollegeTeacher}
-                width={200}
-                height={200}
+                layout="fill"
+                className="w-full object-contain"
               />
-            }
-          >
-            <Meta
-              title="College Teacher"
-              description="Experienced and best qualities of college teacher from wellknown universities. Quickly find a best tutor for you."
-            />{" "}
-            <Link href="/all-tutor?preferClass=11-12">
-              <Button
+            </div>
+          }
+          bodyStyle={{ padding: 20 }}
+        >
+          <Meta
+            title={
+              <Title
+                level={3}
                 style={{
-                  backgroundColor: "#3b82f6",
-                  color: "white",
-                  fontWeight: "bold",
-                  width: "100%",
-                  marginTop: "20px",
+                  marginBottom: 16,
+                  display: "flex",
+                  alignItems: "center",
                 }}
               >
-                <h5>See All</h5>
-              </Button>
-            </Link>{" "}
-          </Card>
-        </Col>
-        <Col xs={15} sm={10} lg={8}>
-          <Card
-            hoverable
-            style={{ width: "100%",margin:"20px 0" }}
-            cover={
+                College Teacher
+              </Title>
+            }
+            description={
+              <Paragraph>
+                Experienced and best qualities of college teacher from wellknown
+                universities. Quickly find a best tutor for you.
+              </Paragraph>
+            }
+          />
+          <Link
+            href="/all-tutor?preferClass=1-10"
+            passHref
+          >
+            <Button
+              type="primary"
+              block
+              size="large"
+              style={{
+                marginTop: 20,
+                height: "auto",
+                padding: "10px 0",
+                fontSize: 16,
+                fontWeight: "bold",
+              }}
+            >
+              See All Teachers
+            </Button>
+          </Link>
+        </Card>
+        <Card
+          hoverable
+          style={{ width: "100%", maxWidth: 300, margin: "20px auto" }}
+          cover={
+            <div style={{ position: "relative", height: 200 }}>
               <Image
-                alt="IeltsTeacher"
+                alt="IELTS Teacher"
                 src={IeltsTeacher}
-                width={200}
-                height={200}
+                layout="fill"
+                className="w-full object-contain"
               />
-            }
-          >
-            <Meta
-              title="IELTS Teacher"
-              description="Finding Experienced teacher or new to teaching IELTS, our tutor will help you guide through the IELTS test."
-            />
-            <Link href="/all-tutor?preferClass=IELTS">
-              <Button
+            </div>
+          }
+          bodyStyle={{ padding: 20 }}
+        >
+          <Meta
+            title={
+              <Title
+                level={3}
                 style={{
-                  backgroundColor: "#3b82f6",
-                  color: "white",
-                  fontWeight: "bold",
-                  width: "100%",
-                  marginTop: "20px",
+                  marginBottom: 16,
+                  display: "flex",
+                  alignItems: "center",
                 }}
               >
-                <h5>See All</h5>
-              </Button>
-            </Link>
-          </Card>
-        </Col>
+                IELTS Teacher
+              </Title>
+            }
+            description={
+              <Paragraph>
+                Finding Experienced teacher or new to teaching IELTS, our tutor
+                will help you guide through the IELTS test.
+              </Paragraph>
+            }
+          />
+          <Link
+            href="/all-tutor?preferClass=1-10"
+            passHref
+          >
+            <Button
+              type="primary"
+              block
+              size="large"
+              style={{
+                marginTop: 20,
+                height: "auto",
+                padding: "10px 0",
+                fontSize: 16,
+                fontWeight: "bold",
+              }}
+            >
+              See All Teachers
+            </Button>
+          </Link>
+        </Card>
       </Row>
       <h4
         style={{
@@ -159,8 +229,7 @@ const Home = () => {
           padding: "5px 0",
           fontWeight: "bolder",
           margin: "20px 0 10px",
-          color:"#3b82f6"
-          
+          color: "#3b82f6",
         }}
       >
         Our Tutors
@@ -173,7 +242,7 @@ const Home = () => {
           padding: "5px 0",
           fontWeight: "bold",
           margin: "20px 0 10px",
-          color:"#3b82f6"
+          color: "#3b82f6",
         }}
       >
         Feedback

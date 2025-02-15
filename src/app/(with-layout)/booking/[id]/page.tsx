@@ -78,10 +78,27 @@ const Booking = ({ params }: { params: { id: string } }) => {
           Tutor Booking
         </h1>
 
-        <Form submitHandler={onSubmit} resolver={yupResolver(bookingSchema)}>
-          <Row justify="center" align="middle">
-            <Col sm={12} md={8} lg={8}>
-              <div style={{ margin: "0 20px" }}>
+        <Form
+          submitHandler={onSubmit}
+          resolver={yupResolver(bookingSchema)}
+        >
+          <Row
+            justify="center"
+            align="middle"
+          >
+            <Col
+              sm={12}
+              md={8}
+              lg={8}
+            >
+              <div
+                style={{
+                  margin: "0 20px",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "10px",
+                }}
+              >
                 <div>
                   Tutor Name
                   <Input

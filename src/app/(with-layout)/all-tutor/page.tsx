@@ -1,6 +1,18 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Button, Card, Col, Empty, Input, Row, Select } from "antd";
+import {
+  Button,
+  Card,
+  Col,
+  Divider,
+  Empty,
+  Input,
+  Row,
+  Select,
+  Space,
+  Tag,
+  Typography,
+} from "antd";
 import Image from "next/image";
 import maleTeacher from "../../../assets/maleTeacher.png";
 import femaleTeacher from "../../../assets/femaleTeacher.png";
@@ -10,6 +22,8 @@ import { addToLocalStorage } from "@/services/cart.service";
 import { useDebounced } from "@/redux/hooks";
 import { SelectOptions } from "@/components/Forms/FormSelectField";
 import { genderOptions, pageOptions } from "@/constants/golbal";
+import { ShoppingCartOutlined, InfoCircleOutlined } from "@ant-design/icons";
+const { Title, Text } = Typography;
 
 const AllTutorsForAdmin = ({ searchParams }: any) => {
   const query: Record<string, any> = {};
@@ -61,7 +75,7 @@ const AllTutorsForAdmin = ({ searchParams }: any) => {
   useEffect(() => {
     if (data) {
       const calculatedTotalPage = Math.ceil(
-        data?.data?.meta?.count / data?.data?.meta?.limit
+        data?.data?.meta?.count / data?.data?.meta?.limit,
       );
       setTotalPage(calculatedTotalPage);
     }
@@ -82,7 +96,7 @@ const AllTutorsForAdmin = ({ searchParams }: any) => {
           }}
         >
           {page}
-        </Button>
+        </Button>,
       );
     }
     return buttons;
@@ -107,14 +121,24 @@ const AllTutorsForAdmin = ({ searchParams }: any) => {
           padding: "20px",
         }}
       >
-        <Col sm={12} md={8} lg={4} style={{ marginLeft: "5px" }}>
+        <Col
+          sm={12}
+          md={8}
+          lg={4}
+          style={{ marginLeft: "5px" }}
+        >
           <Input
             size="large"
             placeholder="Search"
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </Col>
-        <Col sm={12} md={8} lg={4} style={{ marginLeft: "5px" }}>
+        <Col
+          sm={12}
+          md={8}
+          lg={4}
+          style={{ marginLeft: "5px" }}
+        >
           <Input
             size="large"
             type="number"
@@ -122,7 +146,12 @@ const AllTutorsForAdmin = ({ searchParams }: any) => {
             onChange={(e) => setMaxSalary(parseInt(e.target.value))}
           />
         </Col>
-        <Col sm={12} md={8} lg={4} style={{ marginLeft: "5px" }}>
+        <Col
+          sm={12}
+          md={8}
+          lg={4}
+          style={{ marginLeft: "5px" }}
+        >
           <Select
             onChange={(e) => setGender(e)}
             size="large"
@@ -130,7 +159,12 @@ const AllTutorsForAdmin = ({ searchParams }: any) => {
             placeholder="Select Gender"
           />
         </Col>
-        <Col sm={12} md={8} lg={4} style={{ marginLeft: "5px" }}>
+        <Col
+          sm={12}
+          md={8}
+          lg={4}
+          style={{ marginLeft: "5px" }}
+        >
           <Button
             style={{
               backgroundColor: "#fffbbd",
@@ -154,85 +188,108 @@ const AllTutorsForAdmin = ({ searchParams }: any) => {
       >
         {data?.data?.data?.length !== 0 ? (
           data?.data?.data?.map((singleData: any, index: number) => (
-            <Col key={index} sm={12} md={8} lg={6}>
+            <Col
+              key={index}
+              sm={12}
+              md={8}
+              lg={6}
+            >
               <Card
                 hoverable
-                style={{ width: 240, margin: "0 auto 15px auto" }}
+                style={{
+                  width: "100%",
+                  maxWidth: 300,
+                  margin: "0 auto 24px auto",
+                }}
                 cover={
-                  <Image
-                    alt="tutorImage"
-                    src={
-                      singleData.gender == "male" ? maleTeacher : femaleTeacher
-                    }
-                    width={200}
-                    height={200}
-                  />
+                  <div
+                    style={{
+                      position: "relative",
+                      height: 200,
+                      background: "#f0f2f5",
+                    }}
+                  >
+                    <Image
+                      alt="tutorImage"
+                      src={
+                        singleData.gender === "male"
+                          ? maleTeacher
+                          : femaleTeacher
+                      }
+                      layout="fill"
+                      style={{
+                        aspectRatio: 2,
+                      }}
+                    />
+                  </div>
                 }
+                actions={[
+                  <Button
+                    key="addToCart"
+                    type="primary"
+                    icon={<ShoppingCartOutlined />}
+                    onClick={() =>
+                      addToLocalStorage(
+                        singleData._id,
+                        singleData.fullName,
+                        singleData.medium,
+                        singleData.preferredClass,
+                        singleData.expectedMinSalary,
+                      )
+                    }
+                    style={{
+                      backgroundColor: "#52c41a",
+                      borderColor: "#52c41a",
+                    }}
+                  >
+                    Add to cart
+                  </Button>,
+                  <Link
+                    href={`/tutor/${singleData._id}`}
+                    key="details"
+                  >
+                    <Button
+                      type="primary"
+                      icon={<InfoCircleOutlined />}
+                    >
+                      Details
+                    </Button>
+                  </Link>,
+                ]}
               >
-                <h2
-                  style={{
-                    fontWeight: "bold",
-                    textAlign: "center",
-                  }}
+                <Title
+                  level={3}
+                  style={{ textAlign: "center", marginBottom: 16 }}
                 >
                   {singleData.fullName}
-                </h2>
-                <p style={{ margin: "10px 0" }}>
-                  <span style={{ fontWeight: "bold" }}>Institution:</span>{" "}
-                  {singleData.institution}
-                </p>
-                <p style={{ margin: "10px 0" }}>
-                  <span style={{ fontWeight: "bold" }}>Medium:</span>{" "}
-                  {singleData.medium}
-                </p>
-                <p style={{ margin: "10px 0" }}>
-                  <span style={{ fontWeight: "bold" }}>Preferred Subject:</span>{" "}
-                  {singleData.preferredSubject}
-                </p>
-                <p style={{ margin: "10px 0" }}>
-                  <span style={{ fontWeight: "bold" }}>Preferred Class:</span>{" "}
-                  {singleData.preferredClass}
-                </p>
-                <p style={{ margin: "10px 0" }}>
-                  <span style={{ fontWeight: "bold" }}>Expected Salary:</span>{" "}
-                  {singleData.expectedMinSalary}
-                </p>
-                <Row justify="space-between">
-                  <Col span={11}>
-                    <Button
-                      style={{
-                        backgroundColor: "#c3ffbd",
-                        color: "#07b318",
-                        width: "100%",
-                      }}
-                      onClick={() =>
-                        addToLocalStorage(
-                          singleData._id,
-                          singleData.fullName,
-                          singleData.medium,
-                          singleData.preferredClass,
-                          singleData.expectedMinSalary
-                        )
-                      }
-                    >
-                      <h5>Add to cart</h5>
-                    </Button>
-                  </Col>
-                  <Col span={11}>
-                    <Link href={`/tutor/${singleData._id}`}>
-                      <Button
-                        style={{
-                          backgroundColor: "#fffbbd",
-                          color: "#edd874",
-                          fontWeight: "bold",
-                          width: "100%",
-                        }}
-                      >
-                        Details
-                      </Button>
-                    </Link>
-                  </Col>
-                </Row>
+                </Title>
+                <Divider style={{ margin: "12px 0" }} />
+                <Space
+                  direction="vertical"
+                  size="small"
+                  style={{ width: "100%" }}
+                >
+                  <InfoItem
+                    label="Institution"
+                    value={singleData.institution}
+                  />
+                  <InfoItem
+                    label="Medium"
+                    value={singleData.medium}
+                  />
+                  <InfoItem
+                    label="Preferred Subject"
+                    value={singleData.preferredSubject}
+                  />
+                  <InfoItem
+                    label="Preferred Class"
+                    value={singleData.preferredClass}
+                  />
+                  <InfoItem
+                    label="Expected Salary"
+                    value={singleData.expectedMinSalary}
+                  />
+                </Space>
               </Card>
             </Col>
           ))
@@ -272,3 +329,16 @@ const AllTutorsForAdmin = ({ searchParams }: any) => {
 };
 
 export default AllTutorsForAdmin;
+const InfoItem = ({ label, value }: any) => (
+  <Row
+    justify="space-between"
+    align="middle"
+  >
+    <Col>
+      <Text strong>{label}:</Text>
+    </Col>
+    <Col>
+      <Tag color="blue">{value}</Tag>
+    </Col>
+  </Row>
+);
